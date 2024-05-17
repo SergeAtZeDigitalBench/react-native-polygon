@@ -1,10 +1,16 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 export const s = StyleSheet.create({
-  container: {
+  app: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: "#f9f9f9",
+    padding: 15,
+  },
+  header: {
+    flex: 1,
+  },
+  body: { flex: 5 },
+  footer: {
+    height: 70,
   },
 });
