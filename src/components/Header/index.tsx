@@ -2,7 +2,7 @@ import React from "react";
 import { Text, Image } from "react-native";
 import { s } from "./Header.style";
 
-import logoImg from "../../assets/logo.png";
+import logoImg from "../../../assets/logo.png";
 
 type Props = {
   [x: string]: any;
