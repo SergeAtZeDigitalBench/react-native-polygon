@@ -1,7 +1,7 @@
-import React from "react";
 import { Text, View, TextInput, TextInputProps } from "react-native";
-import { s } from "./Input.style";
+
 import { Unit } from "../../types";
+import { s } from "./Input.style";
 
 type Props = {
   unit: Unit;

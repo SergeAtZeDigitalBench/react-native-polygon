@@ -1,4 +1,3 @@
-import React, { type ReactNode } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -7,11 +6,10 @@ import {
 
 import { s } from "./Button.style";
 
-type Props = {
-  children: ReactNode;
-} & TouchableOpacityProps;
-
-export const Button = ({ children, ...restProps }: Props): JSX.Element => {
+export const Button = ({
+  children,
+  ...restProps
+}: TouchableOpacityProps): JSX.Element => {
   return (
     <TouchableOpacity style={s.button} {...restProps}>
       <Text style={s.buttonText}>{children}</Text>

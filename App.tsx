@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Text, View, ImageBackground } from "react-native";
+import { View, ImageBackground } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
+import { convert, reverseUnit, isWeatherWarm, isNumeric } from "./lib";
 import { DisplayTemperature } from "./components/DisplayTemperature";
 import { Input } from "./components/Input";
 import { Button } from "./components/Button";
-import hotImg from "./assets/hot.png";
 import coldImg from "./assets/cold.png";
-import { convert, reverseUnit, isWeatherWarm, isNumeric } from "./lib";
+import hotImg from "./assets/hot.png";
 import { Unit } from "./types";
 import { s } from "./App.style";
 
@@ -27,8 +27,6 @@ export default function App() {
     if (!isNumeric(text)) return;
     setInputValue(text);
   };
-
-  console.log("inputValue :>> ", inputValue);
 
   return (
     <ImageBackground

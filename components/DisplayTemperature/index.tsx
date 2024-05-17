@@ -1,5 +1,4 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 import { Unit } from "../../types";
 import { s } from "./DisplayTemperature.style";
