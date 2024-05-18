@@ -3,3 +3,9 @@ export type Todo = {
   title: string;
   isCompleted: boolean;
 };
+
+export type Stats = {
+  all: number;
+  inProgress: number;
+  completed: number;
+};

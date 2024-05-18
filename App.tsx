@@ -4,6 +4,8 @@ import { Text, View, ScrollView } from "react-native";
 
 import type { Todo } from "@/types";
 
+import { filterListBy } from "@/lib";
+import { BottomMenu } from "@/components/BottomMenu";
 import { CardTodo } from "@/components/CardTodo";
 import { Header } from "@/components/Header";
 import { s } from "./src/App.style";
@@ -22,6 +24,9 @@ const TODO_LIST = [
 
 export default function App() {
   const [todoList, setTodoList] = useState<Todo[]>(() => [...TODO_LIST]);
+  const [selectedTab, setSelectedTab] = useState<
+    "all" | "inProgress" | "completed"
+  >("all");
 
   const handleItemClick = (itemId: number) => {
     setTodoList((current) => {
@@ -35,7 +40,7 @@ export default function App() {
   };
 
   const renderTodoList = () =>
-    todoList.map((todo) => {
+    filterListBy(selectedTab, todoList).map((todo) => {
       return (
         <View key={todo.id} style={s.todoItem}>
           <CardTodo
@@ -62,7 +67,11 @@ export default function App() {
         </SafeAreaView>
       </SafeAreaProvider>
       <View style={s.footer}>
-        <Text>footer</Text>
+        <BottomMenu
+          selectedTab={selectedTab}
+          handleSelect={setSelectedTab}
+          todoList={todoList}
+        />
       </View>
     </>
   );
