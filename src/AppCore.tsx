@@ -3,11 +3,12 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { View, ScrollView } from "react-native";
 import uuid from "react-native-uuid";
 
-import type { Todo } from "@/types";
+import { type Todo, ACTION } from "@/types";
 
+import { useStoreContext } from "@/providers/StoreProvider";
 import { filterListBy } from "@/lib";
-import { TODO_LIST } from "@/constants";
 import { ConfirmDeleteAlert } from "@/components/ConfirmDeleteAlert";
+import { ErrorDisplay } from "@/components/ErrorDisplay";
 import { AddTodoForm } from "@/components/AddTodoForm";
 import { BottomMenu } from "@/components/BottomMenu";
 import { ButtonAdd } from "@/components/ButtonAdd";
@@ -15,30 +16,33 @@ import { CardTodo } from "@/components/CardTodo";
 import { Header } from "@/components/Header";
 import { s } from "./AppCore.style";
 
+const { TODOS_SET } = ACTION;
+
 export const AppCore = (): JSX.Element => {
-  const [todoList, setTodoList] = useState<Todo[]>(() => [...TODO_LIST]);
+  const [store, dispatch] = useStoreContext();
   const [selectedTab, setSelectedTab] = useState<
     "all" | "inProgress" | "completed"
   >("all");
+
+  const { todos: todoList } = store;
 
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [itemToDelete, setItemToDelete] = useState<null | string>(null);
 
   const handleItemClick = (itemId: string) => {
-    setTodoList((current) => {
-      return current.map((item) => {
-        if (item.id === itemId) {
-          return { ...item, isCompleted: !item.isCompleted };
-        }
-        return item;
-      });
+    const newTodos = todoList.map((item) => {
+      if (item.id === itemId) {
+        return { ...item, isCompleted: !item.isCompleted };
+      }
+      return item;
     });
+    dispatch({ type: TODOS_SET, payload: newTodos });
   };
 
   const handleItemDelete = () => {
-    setTodoList((current) =>
-      current.filter((todo) => todo.id !== itemToDelete),
-    );
+    const newTodos = todoList.filter((todo) => todo.id !== itemToDelete);
+    dispatch({ type: TODOS_SET, payload: newTodos });
+
     setItemToDelete(null);
   };
   const handleItemDeleteCancel = () => {
@@ -65,14 +69,13 @@ export const AppCore = (): JSX.Element => {
   };
 
   const handleAddNewTodo = ({ title }: Pick<Todo, "title">) => {
-    setTodoList((current) => {
-      const newTodo: Todo = {
-        title,
-        id: uuid.v4().toString(),
-        isCompleted: false,
-      };
-      return [newTodo, ...current];
-    });
+    const newTodo: Todo = {
+      title,
+      id: uuid.v4().toString(),
+      isCompleted: false,
+    };
+    const newTodos = [newTodo, ...todoList];
+    dispatch({ type: TODOS_SET, payload: newTodos });
     setIsFormVisible(false);
   };
 
@@ -112,6 +115,7 @@ export const AppCore = (): JSX.Element => {
         handleConfirm={handleItemDelete}
         handleCancel={handleItemDeleteCancel}
       />
+      <ErrorDisplay />
     </>
   );
 };
