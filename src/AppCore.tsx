@@ -3,9 +3,10 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { View, ScrollView } from "react-native";
 import uuid from "react-native-uuid";
 
-import { type Todo, ACTION } from "@/types";
+import { type Todo } from "@/types";
 
 import { useStoreContext } from "@/providers/StoreProvider";
+import { updateTodo, deleteTodo, addNewTodo } from "@/lib/todos";
 import { filterListBy } from "@/lib";
 import { ConfirmDeleteAlert } from "@/components/ConfirmDeleteAlert";
 import { ErrorDisplay } from "@/components/ErrorDisplay";
@@ -16,33 +17,29 @@ import { CardTodo } from "@/components/CardTodo";
 import { Header } from "@/components/Header";
 import { s } from "./AppCore.style";
 
-const { TODOS_SET } = ACTION;
-
 export const AppCore = (): JSX.Element => {
   const [store, dispatch] = useStoreContext();
   const [selectedTab, setSelectedTab] = useState<
     "all" | "inProgress" | "completed"
   >("all");
+  const handleUpdateTodo = updateTodo(dispatch);
+  const handleDeleteTodo = deleteTodo(dispatch);
+  const handleAddTodo = addNewTodo(dispatch);
 
   const { todos: todoList } = store;
 
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [itemToDelete, setItemToDelete] = useState<null | string>(null);
 
-  const handleItemClick = (itemId: string) => {
-    const newTodos = todoList.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, isCompleted: !item.isCompleted };
-      }
-      return item;
-    });
-    dispatch({ type: TODOS_SET, payload: newTodos });
+  const handleItemClick = ({
+    id,
+    isCompleted,
+  }: Pick<Todo, "id" | "isCompleted">) => {
+    handleUpdateTodo({ id, isCompleted }, todoList);
   };
 
   const handleItemDelete = () => {
-    const newTodos = todoList.filter((todo) => todo.id !== itemToDelete);
-    dispatch({ type: TODOS_SET, payload: newTodos });
-
+    itemToDelete && handleDeleteTodo(itemToDelete, todoList);
     setItemToDelete(null);
   };
   const handleItemDeleteCancel = () => {
@@ -55,7 +52,7 @@ export const AppCore = (): JSX.Element => {
         <CardTodo
           todo={todo}
           onPress={() => {
-            handleItemClick(todo.id);
+            handleItemClick({ id: todo.id, isCompleted: !todo.isCompleted });
           }}
           onLongPress={() => {
             setItemToDelete(todo.id);
@@ -74,8 +71,7 @@ export const AppCore = (): JSX.Element => {
       id: uuid.v4().toString(),
       isCompleted: false,
     };
-    const newTodos = [newTodo, ...todoList];
-    dispatch({ type: TODOS_SET, payload: newTodos });
+    handleAddTodo(newTodo, todoList);
     setIsFormVisible(false);
   };
 

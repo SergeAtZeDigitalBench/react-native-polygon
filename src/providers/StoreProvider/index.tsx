@@ -4,10 +4,12 @@ import {
   createContext,
   useContext,
   useReducer,
+  useEffect,
 } from "react";
 
 import type { Todo, Action, Store } from "@/types";
 
+import { fetchAllTodos } from "@/lib/todos";
 import { reducer, INIT_APP_STORE } from "./reducer";
 
 type ContextType = [Store, Dispatch<Action<any>>];
@@ -29,6 +31,10 @@ export const StoreProvider = ({
     }
     return initValue;
   });
+
+  useEffect(() => {
+    fetchAllTodos(dispatch)(true);
+  }, []);
 
   return (
     <StoreContext.Provider value={[state, dispatch]}>
