@@ -1,32 +1,25 @@
 import { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Text, View, ScrollView, Alert } from "react-native";
+import { View, ScrollView, Alert } from "react-native";
 
 import type { Todo } from "@/types";
 
 import { filterListBy } from "@/lib";
+import { TODO_LIST } from "@/constants";
+import { AddTodoForm } from "@/components/AddTodoForm";
 import { BottomMenu } from "@/components/BottomMenu";
+import { ButtonAdd } from "@/components/ButtonAdd";
 import { CardTodo } from "@/components/CardTodo";
 import { Header } from "@/components/Header";
 import { s } from "./src/App.style";
-
-const TODO_LIST = [
-  { id: 1, title: "Walk the dog", isCompleted: true },
-  { id: 2, title: "Go to gym", isCompleted: false },
-  { id: 3, title: "Learn React Native", isCompleted: false },
-  { id: 4, title: "Walk in the park", isCompleted: true },
-  { id: 5, title: "Go to restaurant", isCompleted: false },
-  { id: 6, title: "Learn Go", isCompleted: false },
-  { id: 7, title: "Phone parents", isCompleted: true },
-  { id: 8, title: "Cook some tasty food", isCompleted: false },
-  { id: 9, title: "Order pizza", isCompleted: false },
-];
 
 export default function App() {
   const [todoList, setTodoList] = useState<Todo[]>(() => [...TODO_LIST]);
   const [selectedTab, setSelectedTab] = useState<
     "all" | "inProgress" | "completed"
   >("all");
+
+  const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
 
   const handleItemClick = (itemId: number) => {
     setTodoList((current) => {
@@ -59,21 +52,39 @@ export default function App() {
   };
 
   const renderTodoList = () =>
-    filterListBy(selectedTab, todoList).map((todo) => {
-      return (
-        <View key={todo.id} style={s.todoItem}>
-          <CardTodo
-            todo={todo}
-            onPress={() => {
-              handleItemClick(todo.id);
-            }}
-            onLongPress={() => {
-              handleItemDelete(todo.id);
-            }}
-          />
-        </View>
-      );
+    filterListBy(selectedTab, todoList).map((todo) => (
+      <View key={todo.id} style={s.todoItem}>
+        <CardTodo
+          todo={todo}
+          onPress={() => {
+            handleItemClick(todo.id);
+          }}
+          onLongPress={() => {
+            handleItemDelete(todo.id);
+          }}
+        />
+      </View>
+    ));
+
+  const handleShowAddTodoDialog = () => {
+    setIsFormVisible(true);
+  };
+
+  const handleAddNewTodo = ({ title }: Pick<Todo, "title">) => {
+    setTodoList((current) => {
+      const newTodo: Todo = {
+        title,
+        id: current.length + 1,
+        isCompleted: false,
+      };
+      return [newTodo, ...current];
     });
+    setIsFormVisible(false);
+  };
+
+  const handleAddCancel = () => {
+    setIsFormVisible(false);
+  };
 
   return (
     <>
@@ -86,6 +97,7 @@ export default function App() {
           <View style={s.body}>
             <ScrollView>{renderTodoList()}</ScrollView>
           </View>
+          <ButtonAdd onPress={handleShowAddTodoDialog}>+ New todo</ButtonAdd>
         </SafeAreaView>
       </SafeAreaProvider>
       <View style={s.footer}>
@@ -95,6 +107,12 @@ export default function App() {
           todoList={todoList}
         />
       </View>
+
+      <AddTodoForm
+        onSubmit={handleAddNewTodo}
+        onCancel={handleAddCancel}
+        isVisible={isFormVisible}
+      />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { s } from "./BottomMenu.style";
 
 import type { Todo } from "@/types";
 
+import { COLORS } from "@/constants";
 import { getStats } from "@/lib";
 
 const TABS = [
@@ -38,7 +39,7 @@ export const BottomMenu = ({
           }}
         >
           <Text
-            style={[s.tabText, { color: isSelected ? "#2f76e5" : "black" }]}
+            style={[s.tabText, { color: isSelected ? COLORS.BLUE : "black" }]}
           >
             {`${title} (${amount})`}
           </Text>
