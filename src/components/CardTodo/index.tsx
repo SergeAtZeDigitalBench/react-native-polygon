@@ -11,9 +11,9 @@ import type { Todo } from "@/types";
 import checkImg from "../../../assets/check.png";
 import { s } from "./CardTodo.style";
 
-type Props = {
+interface Props extends TouchableOpacityProps {
   todo: Todo;
-} & TouchableOpacityProps;
+}
 
 export const CardTodo = ({
   todo,

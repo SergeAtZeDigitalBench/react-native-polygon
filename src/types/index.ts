@@ -1,11 +1,11 @@
-export type Todo = {
+export interface Todo {
   id: string;
   title: string;
   isCompleted: boolean;
-};
+}
 
-export type Stats = {
+export interface Stats {
   all: number;
   inProgress: number;
   completed: number;
-};
+}
