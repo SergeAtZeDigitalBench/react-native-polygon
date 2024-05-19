@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, Alert } from "react-native";
 
 import type { Todo } from "@/types";
 
@@ -39,6 +39,25 @@ export default function App() {
     });
   };
 
+  const handleItemDelete = (itemId: number) => {
+    Alert.alert(
+      `Delete todo ${itemId} ?`,
+      "Are you sure you want to delete this todo ?",
+      [
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: () => {
+            setTodoList((current) =>
+              current.filter((todo) => todo.id !== itemId),
+            );
+          },
+        },
+        { text: "Cancel", style: "cancel" },
+      ],
+    );
+  };
+
   const renderTodoList = () =>
     filterListBy(selectedTab, todoList).map((todo) => {
       return (
@@ -47,6 +66,9 @@ export default function App() {
             todo={todo}
             onPress={() => {
               handleItemClick(todo.id);
+            }}
+            onLongPress={() => {
+              handleItemDelete(todo.id);
             }}
           />
         </View>

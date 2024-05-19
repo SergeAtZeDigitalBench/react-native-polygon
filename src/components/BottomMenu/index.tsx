@@ -40,7 +40,7 @@ export const BottomMenu = ({
           <Text
             style={[s.tabText, { color: isSelected ? "#2f76e5" : "black" }]}
           >
-            {amount} {title}
+            {`${title} (${amount})`}
           </Text>
         </TouchableOpacity>
       );
