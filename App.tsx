@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { View, ScrollView, Alert } from "react-native";
+import { View, ScrollView } from "react-native";
+import uuid from "react-native-uuid";
 
 import type { Todo } from "@/types";
 
 import { filterListBy } from "@/lib";
 import { TODO_LIST } from "@/constants";
+import { ConfirmDeleteAlert } from "@/components/ConfirmDeleteAlert";
 import { AddTodoForm } from "@/components/AddTodoForm";
 import { BottomMenu } from "@/components/BottomMenu";
 import { ButtonAdd } from "@/components/ButtonAdd";
@@ -20,8 +22,9 @@ export default function App() {
   >("all");
 
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
+  const [itemToDelete, setItemToDelete] = useState<null | string>(null);
 
-  const handleItemClick = (itemId: number) => {
+  const handleItemClick = (itemId: string) => {
     setTodoList((current) => {
       return current.map((item) => {
         if (item.id === itemId) {
@@ -32,23 +35,14 @@ export default function App() {
     });
   };
 
-  const handleItemDelete = (itemId: number) => {
-    Alert.alert(
-      `Delete todo ${itemId} ?`,
-      "Are you sure you want to delete this todo ?",
-      [
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: () => {
-            setTodoList((current) =>
-              current.filter((todo) => todo.id !== itemId),
-            );
-          },
-        },
-        { text: "Cancel", style: "cancel" },
-      ],
+  const handleItemDelete = () => {
+    setTodoList((current) =>
+      current.filter((todo) => todo.id !== itemToDelete),
     );
+    setItemToDelete(null);
+  };
+  const handleItemDeleteCancel = () => {
+    setItemToDelete(null);
   };
 
   const renderTodoList = () =>
@@ -60,7 +54,7 @@ export default function App() {
             handleItemClick(todo.id);
           }}
           onLongPress={() => {
-            handleItemDelete(todo.id);
+            setItemToDelete(todo.id);
           }}
         />
       </View>
@@ -74,7 +68,7 @@ export default function App() {
     setTodoList((current) => {
       const newTodo: Todo = {
         title,
-        id: current.length + 1,
+        id: uuid.v4().toString(),
         isCompleted: false,
       };
       return [newTodo, ...current];
@@ -112,6 +106,11 @@ export default function App() {
         onSubmit={handleAddNewTodo}
         onCancel={handleAddCancel}
         isVisible={isFormVisible}
+      />
+      <ConfirmDeleteAlert
+        isVisible={!!itemToDelete}
+        handleConfirm={handleItemDelete}
+        handleCancel={handleItemDeleteCancel}
       />
     </>
   );

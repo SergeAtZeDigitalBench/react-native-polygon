@@ -48,8 +48,9 @@ export const AddTodoForm = ({
         />
         <Dialog.Button
           label="Save"
-          style={s.buttonSubmit}
+          style={[s.buttonSubmit, { opacity: !title ? 0.7 : 1 }]}
           onPress={handleSubmit}
+          disabled={!title}
         />
       </View>
     </Dialog.Container>

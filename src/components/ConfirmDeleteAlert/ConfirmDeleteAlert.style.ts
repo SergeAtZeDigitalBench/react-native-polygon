@@ -1,11 +1,10 @@
 import { StyleSheet } from "react-native";
-import { COLORS } from "@/constants";
 
 export const s = StyleSheet.create({
   title: {
     fontWeight: "bold",
     fontSize: 24,
-    color: COLORS.BLUE,
+    color: "red",
   },
   description: {
     fontSize: 18,
@@ -16,7 +15,7 @@ export const s = StyleSheet.create({
     justifyContent: "space-between",
   },
   buttonSubmit: {
-    backgroundColor: COLORS.BLUE,
+    backgroundColor: "red",
     color: "white",
     paddingHorizontal: 30,
     paddingVertical: 15,
