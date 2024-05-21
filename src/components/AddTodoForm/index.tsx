@@ -22,6 +22,7 @@ export const AddTodoForm = ({
   const handleSubmit = () => {
     if (!title) return;
     onSubmit({ title });
+    setTitle("");
   };
 
   const handleCancel = () => {
