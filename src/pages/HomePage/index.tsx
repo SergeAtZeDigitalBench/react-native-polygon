@@ -8,8 +8,16 @@ type Props = {
 
 export const HomePage = ({}: Props): JSX.Element => {
   return (
-    <View>
-      <Text>HomePage</Text>
-    </View>
+    <>
+      <View style={s.weatherBasic}>
+        <Text style={s.txt}>Basic weather info</Text>
+      </View>
+      <View style={s.searchContainer}>
+        <Text style={s.txt}>Search bar</Text>
+      </View>
+      <View style={s.weatherAdvanced}>
+        <Text style={s.txt}>Advanced weather info</Text>
+      </View>
+    </>
   );
 };
