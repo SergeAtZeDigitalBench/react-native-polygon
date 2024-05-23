@@ -2,11 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import { s } from "./HomePage.style";
 
-type Props = {
-  [x: string]: any;
-};
-
-export const HomePage = ({}: Props): JSX.Element => {
+export const HomePage = (): JSX.Element => {
   return (
     <>
       <View style={s.weatherBasic}>
