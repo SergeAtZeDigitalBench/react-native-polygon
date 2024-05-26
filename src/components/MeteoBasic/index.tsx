@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image } from "react-native";
 
 import { getWeatherInterpretation } from "@/lib/adaptors/weatherApi";
+import { Clock } from "@/components/Clock";
 import { Txt } from "@/components/Txt";
 
 import { s } from "./MeteoBasic.style";
@@ -20,7 +21,7 @@ export const MeteoBasic = ({
   return (
     <>
       <View style={s.clock}>
-        <Txt>Clock</Txt>
+        <Clock />
       </View>
       <View style={s.city}>
         <Txt>London</Txt>
