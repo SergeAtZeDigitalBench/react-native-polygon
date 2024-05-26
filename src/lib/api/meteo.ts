@@ -29,7 +29,6 @@ export class MeteoApi {
   }): Promise<[OpenMeteoAPIResponse, null] | [null, string]> {
     try {
       const url = createFullUrl({ lat, lon });
-      console.log("url :>> ", url);
       const res = await fetch(url);
 
       if (!res.ok) {

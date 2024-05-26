@@ -7,7 +7,7 @@ import { isNullOrUndefined } from "@/lib/common";
 
 export const useWeatherByLocation = (
   location: Record<"lon" | "lat", number> | null,
-) => {
+): [FetchState<OpenMeteoAPIResponse>, () => Promise<void>] => {
   const [weather, setWeather] = useState<FetchState<OpenMeteoAPIResponse>>({
     data: null,
     isLoading: false,

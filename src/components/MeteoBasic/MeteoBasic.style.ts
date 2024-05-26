@@ -20,5 +20,8 @@ export const s = StyleSheet.create({
   temperature: {
     fontSize: 150,
   },
-  image: {},
+  image: {
+    width: 90,
+    height: 90,
+  },
 });

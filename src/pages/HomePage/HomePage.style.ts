@@ -5,7 +5,7 @@ export const s = StyleSheet.create({
     flex: 2,
   },
   searchContainer: {
-    flex: 1,
+    flex: 2,
   },
   weatherAdvanced: {
     flex: 1,
