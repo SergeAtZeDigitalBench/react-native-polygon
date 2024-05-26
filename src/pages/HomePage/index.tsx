@@ -1,18 +1,20 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+
+import { Txt } from "@/components/Txt";
 import { s } from "./HomePage.style";
 
 export const HomePage = (): JSX.Element => {
   return (
     <>
       <View style={s.weatherBasic}>
-        <Text style={s.txt}>Basic weather info</Text>
+        <Txt>Basic weather info</Txt>
       </View>
       <View style={s.searchContainer}>
-        <Text style={s.txt}>Search bar</Text>
+        <Txt>Search bar</Txt>
       </View>
       <View style={s.weatherAdvanced}>
-        <Text style={s.txt}>Advanced weather info</Text>
+        <Txt>Advanced weather info</Txt>
       </View>
     </>
   );

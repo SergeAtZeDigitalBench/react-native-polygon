@@ -10,8 +10,4 @@ export const s = StyleSheet.create({
   weatherAdvanced: {
     flex: 1,
   },
-  txt: {
-    fontSize: 30,
-    color: "white",
-  },
 });
