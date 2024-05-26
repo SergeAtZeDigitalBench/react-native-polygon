@@ -1,6 +1,12 @@
 export const OPEN_METEO_API = "https://api.open-meteo.com/v1/forecast";
 
-export const WEATHER_CODES = {
+export const WEATHER_CODES: Record<
+  string,
+  {
+    description: string;
+    icon: string;
+  }
+> = {
   "0": { description: "Clear sky", icon: "" },
   "1": { description: "Mainly clear, partly cloudy, and overcast", icon: "" },
   "2": { description: "Mainly clear, partly cloudy, and overcast", icon: "" },
@@ -62,4 +68,4 @@ export const WEATHER_CODES = {
   "95": { description: "Thunderstorm: Slight or moderate", icon: "" },
   "96": { description: "Thunderstorm with slight and heavy hail", icon: "" },
   "99": { description: "Thunderstorm with slight and heavy hail", icon: "" },
-} as const;
+};
