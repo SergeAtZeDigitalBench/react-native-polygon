@@ -1,3 +1,4 @@
+export * from "./openStreetMapApi";
 export * from "./openMeteoApi";
 
 export type FetchState<D> = {

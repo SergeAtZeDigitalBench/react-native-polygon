@@ -7,6 +7,7 @@ import snowy from "../../assets/snow.png";
 import thunder from "../../assets/thunder.png";
 
 export const OPEN_METEO_API = "https://api.open-meteo.com/v1/forecast";
+export const OPEN_STREET_MAP_API = "https://nominatim.openstreetmap.org";
 
 export const WEATHER_CODES: Record<
   string,

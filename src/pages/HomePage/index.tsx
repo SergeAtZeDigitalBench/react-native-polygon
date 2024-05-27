@@ -11,15 +11,17 @@ import { s } from "./HomePage.style";
 
 interface Props {
   weather: OpenMeteoAPIResponse;
+  city: string;
 }
 
-export const HomePage = ({ weather }: Props): JSX.Element => {
+export const HomePage = ({ weather, city }: Props): JSX.Element => {
   const { current_weather: currentWeather } = weather;
 
   return (
     <>
       <View style={s.weatherBasic}>
         <MeteoBasic
+          city={city}
           temperature={Math.round(currentWeather.temperature)}
           weatherCode={currentWeather.weathercode}
         />

@@ -10,11 +10,13 @@ import { s } from "./MeteoBasic.style";
 interface Props {
   temperature: number;
   weatherCode: number;
+  city: string;
 }
 
 export const MeteoBasic = ({
   temperature,
   weatherCode,
+  city,
 }: Props): JSX.Element => {
   const interpretation = getWeatherInterpretation(weatherCode);
 
@@ -24,7 +26,7 @@ export const MeteoBasic = ({
         <Clock />
       </View>
       <View style={s.city}>
-        <Txt>London</Txt>
+        <Txt>{city}</Txt>
       </View>
       <View style={s.interpretation}>
         <Txt style={s.interpretationText}>{interpretation.label}</Txt>
