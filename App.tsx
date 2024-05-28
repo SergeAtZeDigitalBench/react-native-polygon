@@ -2,6 +2,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { ImageBackground } from "react-native";
 import { useFonts } from "expo-font";
 
+import { StoreProvider } from "@/providers/StoreProvider";
 import { AppCore } from "@/AppCore";
 import { s } from "@/App.style";
 
@@ -20,7 +21,7 @@ export default function App() {
     >
       <SafeAreaProvider>
         <SafeAreaView style={s.container}>
-          {isFontLoaded && <AppCore />}
+          <StoreProvider>{isFontLoaded && <AppCore />}</StoreProvider>
         </SafeAreaView>
       </SafeAreaProvider>
     </ImageBackground>

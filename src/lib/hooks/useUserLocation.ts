@@ -1,12 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import {
   requestForegroundPermissionsAsync,
   getCurrentPositionAsync,
-  type LocationObject,
 } from "expo-location";
 
-import type { FetchState } from "@/types";
-
+import { useStoreContext } from "@/providers/StoreProvider";
+import { ACTION_TYPE } from "@/types";
 import { getErrorMessage } from "../common";
 
 const getUserCoordinates = async (): Promise<
@@ -29,36 +28,26 @@ const getUserCoordinates = async (): Promise<
 
 /**
  * @description getting user location
- * @returns tuple of 2 fetch state and refetch fn
+ * @returns refetch coordinates fn
  */
-export const useUserLocation = (): [
-  FetchState<Record<"lat" | "lon", number>>,
-  () => Promise<void>,
-] => {
-  const [state, setState] = useState<FetchState<Record<"lat" | "lon", number>>>(
-    {
-      data: null,
-      isLoading: false,
-      error: null,
-    },
-  );
-
-  const mountedRef = useRef<boolean>(true);
+export const useUserLocation = (): { refetch: () => Promise<void> } => {
+  const { dispatch } = useStoreContext();
 
   const fetchUserCoordinates = useCallback(async () => {
-    setState((current) => ({ ...current, isLoading: true }));
+    dispatch({ type: ACTION_TYPE.LOCATION_LOADING });
+
     const [data, error] = await getUserCoordinates();
-    mountedRef.current && setState({ data, error, isLoading: false });
+
+    if (error || !data) {
+      dispatch({ type: ACTION_TYPE.LOCATION_ERROR, payload: error });
+    } else {
+      dispatch({ type: ACTION_TYPE.LOCATION_SET, payload: data });
+    }
   }, []);
 
   useEffect(() => {
-    mountedRef.current = true;
     fetchUserCoordinates();
-
-    return () => {
-      mountedRef.current = false;
-    };
   }, []);
 
-  return [state, fetchUserCoordinates];
+  return { refetch: fetchUserCoordinates };
 };

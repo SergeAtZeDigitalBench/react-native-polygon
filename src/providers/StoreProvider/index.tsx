@@ -6,7 +6,7 @@ import {
   useReducer,
 } from "react";
 
-import type { OpenMeteoAPIResponse, FetchState, Store, Action } from "@/types";
+import type { Store, Action } from "@/types";
 
 import { reducer, INITIAL_STORE } from "./reducer";
 

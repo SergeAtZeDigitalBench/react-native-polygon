@@ -1,22 +1,21 @@
 import { HomePage } from "@/pages/HomePage";
+
 import {
   useUserLocation,
   useWeatherByLocation,
   useCityByLocation,
 } from "@/lib/hooks";
+import { useStoreContext } from "./providers/StoreProvider";
 
 export const AppCore = (): JSX.Element | null => {
-  const [location] = useUserLocation();
-  const [weather] = useWeatherByLocation(location.data);
-  const [city] = useCityByLocation(location.data);
+  const { store } = useStoreContext();
+  useUserLocation();
+  useWeatherByLocation();
+  useCityByLocation();
 
-  return (
-    <>
-      {weather.data && city.data && (
-        <HomePage weather={weather.data} city={city.data} />
-      )}
-    </>
-  );
+  const { weather, location } = store;
+
+  return <>{location.data && weather.data && <HomePage />}</>;
 };
 
 export default AppCore;

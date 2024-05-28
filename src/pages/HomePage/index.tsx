@@ -1,30 +1,16 @@
 import React from "react";
 import { View } from "react-native";
 
-import { OpenMeteoAPIResponse } from "@/types";
-
-import { getWeatherInterpretation } from "@/lib/adaptors/weatherApi";
 import { MeteoBasic } from "@/components/MeteoBasic";
 import { Txt } from "@/components/Txt";
 
 import { s } from "./HomePage.style";
 
-interface Props {
-  weather: OpenMeteoAPIResponse;
-  city: string;
-}
-
-export const HomePage = ({ weather, city }: Props): JSX.Element => {
-  const { current_weather: currentWeather } = weather;
-
+export const HomePage = (): JSX.Element | null => {
   return (
     <>
       <View style={s.weatherBasic}>
-        <MeteoBasic
-          city={city}
-          temperature={Math.round(currentWeather.temperature)}
-          weatherCode={currentWeather.weathercode}
-        />
+        <MeteoBasic />
       </View>
       <View style={s.searchContainer}>
         <Txt>Search bar</Txt>

@@ -1,42 +1,35 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useEffect, useCallback } from "react";
 
-import type { OpenMeteoAPIResponse, FetchState } from "@/types";
+import { ACTION_TYPE } from "@/types";
 
-import { MeteoApi } from "@/lib/api/meteo";
+import { useStoreContext } from "@/providers/StoreProvider";
 import { isNullOrUndefined } from "@/lib/common";
+import { MeteoApi } from "@/lib/api/meteo";
 
-export const useWeatherByLocation = (
-  location: Record<"lon" | "lat", number> | null,
-): [FetchState<OpenMeteoAPIResponse>, () => Promise<void>] => {
-  const [weather, setWeather] = useState<FetchState<OpenMeteoAPIResponse>>({
-    data: null,
-    isLoading: false,
-    error: null,
-  });
-  const mountedRef = useRef(true);
+export const useWeatherByLocation = (): { refetch: () => Promise<void> } => {
+  const { store, dispatch } = useStoreContext();
+
+  const { data: location } = store.location;
 
   const fetchWeatherByLocation = useCallback(async () => {
     if (isNullOrUndefined(location)) {
       return;
     }
     const { lon, lat } = location;
-    setWeather((current) => ({ ...current, isLoading: true }));
-    MeteoApi.fetchWeatherByCoords({ lon, lat }).then(([data, error]) => {
-      mountedRef.current && setWeather({ data, isLoading: false, error });
-    });
+    dispatch({ type: ACTION_TYPE.WEATHER_LOADING });
+
+    const [data, error] = await MeteoApi.fetchWeatherByCoords({ lon, lat });
+
+    if (error || !data) {
+      dispatch({ type: ACTION_TYPE.WEATHER_ERROR, payload: error });
+    } else {
+      dispatch({ type: ACTION_TYPE.WEATHER_SET, payload: data });
+    }
   }, [location]);
-
-  useEffect(() => {
-    mountedRef.current = true;
-
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
 
   useEffect(() => {
     location?.lat && location.lon && fetchWeatherByLocation();
   }, [fetchWeatherByLocation, location]);
 
-  return [weather, fetchWeatherByLocation];
+  return { refetch: fetchWeatherByLocation };
 };
