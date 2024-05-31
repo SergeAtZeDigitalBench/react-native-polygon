@@ -6,9 +6,9 @@ import { useStoreContext } from "@/providers/StoreProvider";
 import { Clock } from "@/components/Clock";
 import { Txt } from "@/components/Txt";
 
-import { s } from "./MeteoBasic.style";
+import { s } from "./WeatherBasic.style";
 
-export const MeteoBasic = (): JSX.Element | null => {
+export const WeatherBasic = (): JSX.Element | null => {
   const { store } = useStoreContext();
   const { city, weather } = store;
 

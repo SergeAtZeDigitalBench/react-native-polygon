@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 
-import { MeteoBasic } from "@/components/MeteoBasic";
+import { WeatherAdvanced } from "@/components/WeatherAdvanced";
+import { WeatherBasic } from "@/components/WeatherBasic";
 import { Txt } from "@/components/Txt";
 
 import { s } from "./HomePage.style";
@@ -10,13 +11,13 @@ export const HomePage = (): JSX.Element | null => {
   return (
     <>
       <View style={s.weatherBasic}>
-        <MeteoBasic />
+        <WeatherBasic />
       </View>
       <View style={s.searchContainer}>
         <Txt>Search bar</Txt>
       </View>
       <View style={s.weatherAdvanced}>
-        <Txt>Advanced weather info</Txt>
+        <WeatherAdvanced />
       </View>
     </>
   );
