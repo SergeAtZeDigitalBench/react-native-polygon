@@ -7,7 +7,7 @@ import { Txt } from "@/components/Txt";
 
 import { s } from "./HomePage.style";
 
-export const HomePage = (): JSX.Element | null => {
+export const HomePage = (): JSX.Element => {
   return (
     <>
       <View style={s.weatherBasic}>
