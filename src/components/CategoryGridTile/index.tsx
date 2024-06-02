@@ -1,11 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
+import { NavProps } from "@/types";
 import { CategoryType } from "@/types";
 
 interface Props extends CategoryType {}
 
-export const CategoryGridTile = ({ title, color }: Props): JSX.Element => {
+export const CategoryGridTile = ({ title, color, id }: Props): JSX.Element => {
+  const navigation = useNavigation<NavProps>();
+
   return (
     <View style={s.gridItem}>
       <Pressable
@@ -14,7 +18,9 @@ export const CategoryGridTile = ({ title, color }: Props): JSX.Element => {
         }}
         android_ripple={{ color: "#ccc" }}
         onPress={() => {
-          console.log("Click");
+          navigation.navigate("MealsOverview", {
+            categoryId: id,
+          });
         }}
       >
         <View style={[s.innerContainer, { backgroundColor: color }]}>

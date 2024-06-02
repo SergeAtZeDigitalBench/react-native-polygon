@@ -1,30 +1,20 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  ListRenderItemInfo,
-} from "react-native";
+import { StyleSheet, FlatList, ListRenderItemInfo } from "react-native";
 
-import { CategoryType } from "@/types";
+import { CategoryType, ScreenProps } from "@/types";
+
+import {} from "@/constants";
 import { CATEGORIES } from "@/data";
 import { CategoryGridTile } from "@/components/CategoryGridTile";
 
-const renderCategoryItem = ({ item }: ListRenderItemInfo<CategoryType>) => {
-  return <CategoryGridTile {...item} />;
-};
-
-interface Props {
-  [x: string]: any;
-}
-
-export const CategoryScreen = ({}: Props): JSX.Element => {
+export const CategoryScreen = ({ navigation }: ScreenProps): JSX.Element => {
   return (
     <FlatList
       data={CATEGORIES}
       keyExtractor={(item) => item.id}
-      renderItem={renderCategoryItem}
+      renderItem={({ item }: ListRenderItemInfo<CategoryType>) => {
+        return <CategoryGridTile {...item} />;
+      }}
       numColumns={2}
     />
   );
