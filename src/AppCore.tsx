@@ -1,12 +1,15 @@
 import React from "react";
-import { Text } from "react-native";
+import { StatusBar } from "expo-status-bar";
+
+import { CategoryScreen } from "@/screens/CategoryScreen";
 
 import { s } from "./App.style";
 
 export const AppCore = (): JSX.Element => {
   return (
     <>
-      <Text style={s.title}>My App</Text>
+      <CategoryScreen />
+      <StatusBar style="light" />
     </>
   );
 };
