@@ -22,16 +22,21 @@ export const MealSummaryItem = ({
   affordability,
 }: Props): JSX.Element => {
   return (
-    <View>
-      <Pressable>
-        <View>
-          <Image source={{ uri: imageUrl }} style={s.image} />
-          <Text style={s.title}>{title}</Text>
-        </View>
-        <View style={s.details}>
-          <Text style={s.detailItem}>{duration}</Text>
-          <Text style={s.detailItem}>{complexity.toUpperCase()}</Text>
-          <Text style={s.detailItem}>{affordability.toUpperCase()}</Text>
+    <View style={s.mealItem}>
+      <Pressable
+        android_ripple={{ color: "#ccc" }}
+        style={({ pressed }) => [pressed ? s.buttonPressed : null]}
+      >
+        <View style={s.innerContainer}>
+          <View>
+            <Image source={{ uri: imageUrl }} style={s.image} />
+            <Text style={s.title}>{title}</Text>
+          </View>
+          <View style={s.details}>
+            <Text style={s.detailItem}>{duration}</Text>
+            <Text style={s.detailItem}>{complexity.toUpperCase()}</Text>
+            <Text style={s.detailItem}>{affordability.toUpperCase()}</Text>
+          </View>
         </View>
       </Pressable>
     </View>
@@ -49,6 +54,10 @@ const s = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 8,
+  },
+  innerContainer: {
+    borderRadius: 8,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
@@ -69,5 +78,8 @@ const s = StyleSheet.create({
   },
   detailItem: {
     fontSize: 12,
+  },
+  buttonPressed: {
+    opacity: 0.5,
   },
 });
