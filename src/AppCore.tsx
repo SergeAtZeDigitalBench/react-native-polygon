@@ -17,10 +17,23 @@ export const AppCore = (): JSX.Element => {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {
+              backgroundColor: "#351401",
+            },
+            headerTintColor: "white",
+            contentStyle: {
+              backgroundColor: "#523c30",
+            },
+          }}
+        >
           <Stack.Screen
             name={SCREEN.MEALS_CATEGORIES}
             component={CategoryScreen}
+            options={{
+              title: "All Categories",
+            }}
           />
 
           <Stack.Screen
